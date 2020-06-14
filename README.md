@@ -11,10 +11,6 @@
 * Gestionar la Venta de Replicas <http://localhost/replicas/agregar>
 * Gestionar Exhibiciones y Visitas Guiadas <http://localhost/exhibiciones>
 
-## Integrantes
+## Integrante
 
-* De Marco Andrada, Franco Guillermo
-* Soto, Lucas Isaac
-* Villanueva, Alex Fabian
-* Jones Escudero, Lautaro Alexander
 * Barria Reyes, Jose Daniel
