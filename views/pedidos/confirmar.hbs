@@ -1,9 +1,0 @@
-<h1>Confirmar replicacion de Pedido</h1>
-<span class="bg-warning form-control">Esta a punto de confirmar el siguiente pedido</span>
-
-{{> replica/detalle detalles}}
-
-<form action="/pedidos/{{accion}}/{{id}}" method="post">
-<button type="submit" class="btn btn-primary">Confirmar</button>
-<a href="/pedidos" class="btn btn-secondary">Rechazar</a>
-</form>
