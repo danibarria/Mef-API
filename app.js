@@ -7,18 +7,6 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 var database = require('./models')
 
-//rutas
-var dinosauriosRouter = require('./routes/dinosaurios')
-var fosilesRouter = require('./routes/fosiles')
-var subclaseRouter = require('./routes/subclases')
-var pedidosRouter = require('./routes/pedidos')
-var clientesRouter = require('./routes/clientes')
-var empleadosRouter = require('./routes/empleados')
-var guiasRouter = require('./routes/guias')
-var visitasRouter = require('./routes/visitas')
-var exhibicionesRouter = require('./routes/exhibiciones')
-var replicasRouter = require('./routes/replicas')
-
 var app = express()
 
 app.use(logger('dev'))
@@ -46,16 +34,17 @@ app.use(session({
   })
 )
 
-app.use('/dinosaurios', dinosauriosRouter)
-app.use('/fosiles', fosilesRouter)
-app.use('/subclases', subclaseRouter)
-app.use('/clientes', clientesRouter)
-app.use('/empleados', empleadosRouter)
-app.use('/guias', guiasRouter)
-app.use('/pedidos', pedidosRouter)
-app.use('/visitas', visitasRouter)
-app.use('/exhibiciones', exhibicionesRouter)
-app.use('/replicas', replicasRouter)
+//rutas
+app.use('/dinosaurios', require('./routes/dinosaurios'))
+app.use('/fosiles', require('./routes/fosiles'))
+app.use('/subclases', require('./routes/subclases'))
+app.use('/clientes', require('./routes/clientes'))
+app.use('/empleados', require('./routes/empleados'))
+app.use('/pedidos', require('./routes/pedidos'))
+app.use('/guias', require('./routes/guias'))
+app.use('/visitas', require('./routes/visitas'))
+app.use('/exhibiciones', require('./routes/exhibiciones'))
+app.use('/replicas', require('./routes/replicas'))
 
 
 // catch 404 and forward to error handler
