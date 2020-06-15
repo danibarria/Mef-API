@@ -12,13 +12,13 @@ const paginate = require('../middlewares/paginate')
 router.get("/", paginate, async (req, res) => {
   const { page, limit } = req.query
   try {
-    const exhibiciones = await exhibicionService.getExhibiciones(page, limit)
-    const paginationObj = {
-      ...generatePagination('exhibiciones', exhibiciones.count, page, limit)
+    const { rows, count } = await exhibicionService.getExhibiciones(page, limit)
+    const pagination = {
+      ...generatePagination('exhibiciones', count, page, limit)
   }
-    res.render("exhibiciones/exhibicion", { exhibiciones:exhibiciones.rows, paginationObj, req })
+    res.status(200).send({ count, rows, pagination })
   } catch (error) {
-    res.redirect('/404')
+    res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de exhibiciones'}, null, 4))
   }
 })
 

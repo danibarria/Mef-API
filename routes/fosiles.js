@@ -27,21 +27,19 @@ const bones = [
 const { generatePagination } = require('../services/utils')
 const paginate = require('../middlewares/paginate')
 
-router.get("/",
-  permisos.permisoPara([permisos.ROLES.COLECCION, permisos.ROLES.EXHIBICION]),
-  paginate,
-  async (req, res) => {
-    const { page, limit } = req.query
-    try {
-      const fosiles = await fosilService.getFosiles(page, limit)
-      const paginationObj = {
-        ...generatePagination('fosiles', fosiles.count, page, limit)
-      }
-      res.render("fosiles/fosil", { results:fosiles.rows, paginationObj, req })
-    } catch (error) {
-      res.redirect('/404')      
+router.get("/", paginate, async (req, res) => {
+  const { page, limit } = req.query
+  try {
+    const { rows, count }  = await fosilService.getFosiles(page, limit)
+    const pagination = {
+      ...generatePagination('fosiles', count, page, limit)
     }
-  })
+    
+    res.status(200).send({ count, rows, pagination })
+  } catch (error) {
+    res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de fosiles'}, null, 4))
+  }
+})
 
 router.get("/agregar",
   permisos.permisoPara([permisos.ROLES.COLECCION]),

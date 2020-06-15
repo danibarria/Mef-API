@@ -8,20 +8,17 @@ const Op = Sequelize.Op;
 const paginate = require('../middlewares/paginate')
 const { generatePagination} = require("../services/utils");
 
-router.get('/',
-  permisos.permisoPara([permisos.ROLES.RRHH, permisos.ROLES.SECRETARIA]),
-  paginate,
-  async (req, res, ) => {
+router.get('/', paginate, async (req, res, ) => {
     const { page, limit } = req.query
     try {
-      const countGuias = await guiaService.countGuias()
-      const guias = await guiaService.getGuias(page, limit)
-      const paginationObj = {
-        ...generatePagination('guias', countGuias, page, limit)
+      const count = await guiaService.countGuias()
+      const { rows } = await guiaService.getGuias(page, limit)
+      const pagination = {
+        ...generatePagination('guias', count, page, limit)
       }
-      res.render("guias/guia", {results:guias.rows, paginationObj, req})
+      res.status(200).send({ count, rows, pagination })
     } catch (error) {
-      res.redirect('/404')
+      res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de guias'}, null, 4))
     }
   }
 );

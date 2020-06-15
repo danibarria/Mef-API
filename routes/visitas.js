@@ -13,15 +13,15 @@ router.get('/', paginate, async (req, res) => {
   const { page, limit } = req.query
 
   try {
-    const countVisitas = await visitaService.countVisitas()
-    const visitas = await visitaService.getVisitas()
-    const paginationObj = {
-      ...generatePagination('visitas', countVisitas, page, limit)
+    const count = await visitaService.countVisitas()
+    const { rows } = await visitaService.getVisitas(page, limit)
+    const pagination = {
+      ...generatePagination('visitas', count, page, limit)
     }
-    res.render('visitas/visita', { visitas: visitas.rows, paginationObj, req })
-
+    
+    res.status(200).send({ count, rows, pagination })
   } catch (error) {
-    console.log(error)
+    res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de clientes'}, null, 4))
   }
 })
 

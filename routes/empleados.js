@@ -7,40 +7,19 @@ const { generatePagination } = require("../services/utils");
 
 
 //lista todos los empleados
-router.get("/", 
-  paginate,
-  async (req, res) => {  
-    const { page, limit } = req.query
-    try {
-      const empleados = await empleadoService.getEmpleados(page, limit)
-      const paginationObj = {
-        ...generatePagination('empleados', empleados.count, page, limit)
-      }
-      res.render("empleados/empleado", { results:empleados.rows, paginationObj, req })
-    } catch (error) {
-      res.redirect('/404')    
+router.get("/", paginate, async (req, res) => {  
+  const { page, limit } = req.query
+  try {
+    const empleados = await empleadoService.getEmpleados(page, limit)
+    const { rows, count } = empleados
+    const pagination = {
+      ...generatePagination('empleados', count, page, limit)
     }
-})
 
-router.get("/agregar", (req, res) => {
-  empleadoService.getEmpleados().then(empleados => {
-    res.render("empleados/agregar", { empleados, req })
-  })
-})
-
-router.get("/editar/:id", (req, res) => {
-  const { id } = req.params
-  //ver cuando id no existe
-  empleadoService.getEmpleado(id).then(empleado => {
-    res.render("empleados/editar", { empleado, req })
-  })
-})
-
-router.get("/eliminar/:id", (req, res) => {
-  const { id } = req.params
-  empleadoService.getEmpleado(id).then(empleado => {
-    res.render("empleados/eliminar", { empleado, req })
-  })
+    res.status(200).send({ count, rows, pagination })
+  } catch (error) {
+    res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de empleados'}, null, 4)) 
+  }
 })
   
 router.post('/', async (req, res) =>{
@@ -58,7 +37,7 @@ router.post('/', async (req, res) =>{
         }
     }
     if(errores){
-      res.render('empleados/agregar',{errores,req})   
+      //res.render('empleados/agregar',{errores,req})   
     }else{
       res.redirect('/empleados')
     }

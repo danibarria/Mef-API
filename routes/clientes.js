@@ -10,39 +10,17 @@ const paginate = require('../middlewares/paginate')
 router.get('/', paginate , async (req, res) => {
     const { page, limit } = req.query
     try {
-        const clientes = await clienteService.getClientes(page, limit)
-        const paginationObj = {
-            ...generatePagination('clientes', clientes.count, page, limit)
+        const { rows, count } = await clienteService.getClientes(page, limit)
+        const pagination = {
+            ...generatePagination('clientes', count, page, limit)
         }
-        res.render('clientes/cliente',{ results: clientes.rows, paginationObj, req })
+
+        res.status(200).send({ count, rows, pagination })
     } catch (error) {
-        res.redirect('/404')
+        res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de clientes'}, null, 4))
     }
 });
 
-router.get('/agregar', (req,res) => {
-    res.render('clientes/agregar',{ req });
-});
-
-router.get('/editar/:id', async (req,res) => {
-    const { id } = req.params;
-    try {
-        const cliente = await clienteService.getCliente(id)
-        res.render('clientes/editar', { cliente,req })
-    } catch (error) {
-        res.redirect('/404')
-    }
-})
-
-router.get('/eliminar/:id', async (req,res)=>{
-    const { id } = req.params
-    try {
-        const cliente = await clienteService.getCliente(id)
-        res.render('clientes/eliminar', { cliente, req })
-    } catch (error) {
-        res.redirect('/404')
-    }
-  });
   
 router.post('/', async (req,res) =>{
     const {identificacion ,nombre, apellido, direccion, localidad, email, fecha_nacimiento, telefono, tipoCliente, PersonaId, tipo } = req.body;
@@ -57,7 +35,7 @@ router.post('/', async (req,res) =>{
             res.redirect('/clientes'); 
         } catch (error) {
             errores = error;
-            res.render("clientes/agregar", { errores:error, req })
+            // res.render("clientes/agregar", { errores:error, req })
         }
     }
 });

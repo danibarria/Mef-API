@@ -7,13 +7,13 @@ const paginate = require('../middlewares/paginate')
 router.get('/', paginate, async (req, res) => {
   const { page, limit } = req.query
   try {
-    const subclases = await subclaseService.getSubclases(page, limit)
-    const paginationObj = {
+    const { rows, count } = await subclaseService.getSubclases(page, limit)
+    const pagination = {
       ...generatePagination('subclases', subclases.count, page, limit)
     }
-    res.render('subclases/subclase', { result:subclases.rows, paginationObj, req })
+    res.status(200).send({ count, rows, pagination })
   } catch (error) {
-    res.redirect('/404')
+    res.status(500).send(JSON.stringify({ error, message:'No se pudo obtener la lista de clientes'}, null, 4))
   }
 })
 
