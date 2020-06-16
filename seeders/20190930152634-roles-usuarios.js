@@ -34,31 +34,26 @@ module.exports = {
     },{
       email: 'taller@mef',
       password: await bcrypt.hashSync('taller',10),
-      RolId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     },{
       email:'coleccion@mef',
       password: await bcrypt.hashSync('coleccion',10),
-      RolId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },{
       email:'rrhh@mef',
       password: await bcrypt.hashSync('rrhh',10),
-      RolId: 3,
       createdAt: new Date(),
       updatedAt: new Date()
     },{
       email: 'secretaria@mef',
       password: await bcrypt.hashSync('secretaria',10),
-      RolId: 4,
       createdAt: new Date(),
       updatedAt: new Date()
     },{
       email: 'exhibicion@mef',
       password: await bcrypt.hashSync('exhibicion',10),
-      RolId: 5,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})
