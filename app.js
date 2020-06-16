@@ -1,7 +1,6 @@
 var createError = require('http-errors')
 var express = require('express')
 var path = require('path')
-var logger = require('morgan')
 var cors = require('cors')
 var bodyParser = require('body-parser')
 var session = require('express-session')
@@ -9,7 +8,6 @@ var database = require('./models')
 
 var app = express()
 
-app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
