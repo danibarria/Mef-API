@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) =>{
+	const UsersRoles = sequelize.define('UsersRoles', {}, { paranoid: true })
 	const User = sequelize.define('User',{
 		email:{
 			type: DataTypes.STRING,
@@ -9,13 +10,6 @@ module.exports = (sequelize, DataTypes) =>{
 			unique: true
 		},
 		password: DataTypes.STRING,
-		RolId:{
-			type: DataTypes.INTEGER,
-			references:{
-				model:'Rols',
-				key:'id'
-			}
-		},
 		PersonaId:{
 			type: DataTypes.INTEGER,
 			references: {
@@ -35,8 +29,8 @@ module.exports = (sequelize, DataTypes) =>{
 
 	User.associate = function(models){
 		models.User.belongsTo(models.Persona);
-		models.User.belongsTo(models.Rol);
-		models.Rol.hasMany(models.User);
+		models.User.belongsToMany(models.Rol, { through: UsersRoles });
+		models.Rol.belongsToMany(models.User, { through: UsersRoles });
 	};
 	return User;
 };
