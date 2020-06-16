@@ -4,7 +4,6 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "scripts": {
-    "build": "tsc",
     "clean": "rm -rf build",
     "dev": "nodemon ./bin/www",
     "dev:inspect": "nodemon --inspect index",
@@ -34,9 +33,6 @@
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.1",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
     "faker": "^4.1.0",
     "nodemon": "^1.19.1"
   },
