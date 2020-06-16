@@ -1,6 +1,6 @@
 'use strict';
 const MAX = 300; //cantidad de personas
-const faker = require('faker/locale/es_MX');
+const faker = require('faker');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
